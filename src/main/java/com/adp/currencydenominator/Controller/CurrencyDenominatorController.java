@@ -19,17 +19,18 @@ public class CurrencyDenominatorController {
             consumes = {"application/json"},
             produces = {"application/json"},
             method = RequestMethod.POST)
-    public ResponseEntity<String> convertToCoins(@RequestParam Integer bill) {
+    public ResponseEntity<String> convertToCoins(@RequestParam String bill) {
         try {
-            if (currencyDenominatorService.isVaildInput(bill)) {
-                String result = currencyDenominatorService.convertToCoins(bill);
+            Integer intBill = Integer.parseInt(bill);
+            if (currencyDenominatorService.isVaildInput(intBill)) {
+                String result = currencyDenominatorService.convertToCoins(intBill);
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Not a vaild input :" + bill, HttpStatus.BAD_REQUEST);
             }
 
         } catch (NumberFormatException e) {
-            return new ResponseEntity<>("Bad Request" + bill, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad Request " + bill, HttpStatus.BAD_REQUEST);
         }
     }
 }
